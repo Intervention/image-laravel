@@ -22,7 +22,8 @@ php artisan vendor:publish --provider="Intervention\Image\Laravel\ServiceProvide
 
 This command will publish the configuration file `image.php` for the image
 integration to your `app/config` directory. In this file you can set the
-desired driver for Intervention Image.
+desired driver for Intervention Image. By default the library is configured 
+to use GD library for image processing.
 
 ## Getting started
 
