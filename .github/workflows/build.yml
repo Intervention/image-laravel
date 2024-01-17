@@ -1,0 +1,27 @@
+name: Tests
+
+on: [push]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.1', '8.2', '8.3']
+    name: Testing on PHP ${{ matrix.php }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring,bcmath
+          tools: composer
+
+      - name: Install PHP dependencies
+        run: composer install -q
+
+      - name: Run phpunit
+        run: vendor/bin/phpunit
