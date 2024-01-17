@@ -30,5 +30,5 @@
                 "Image": "Intervention\\Image\\Laravel\\ImageFacade"
             }
         }
-    },
+    }
 }
