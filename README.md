@@ -38,7 +38,7 @@ via Laravel's facade.
 use Intervention\Image\Laravel\Facades\Image;
 
 Route::get('/', function () {
-    $image = Image::create(300, 200);
+    $image = Image::read('images/example.jpg');
 });
 ```
 
