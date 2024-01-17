@@ -26,7 +26,7 @@ desired driver for Intervention Image.
 
 ## Getting started
 
-The integration is now complete and it is possible to access the [ImageManager](https://image.intervention.io/v3/basics/image-manager)
+The integration is now complete and it is possible to access the [ImageManager](https://image.intervention.io/v3/basics/instantiation)
 via Laravel's facade.
 
 ```php
