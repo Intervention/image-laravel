@@ -22,7 +22,7 @@ class ServiceProvider extends BaseServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../../config/image.php' => config_path($this::BINDING . '.php')
+            __DIR__ . '/../config/image.php' => config_path($this::BINDING . '.php')
         ]);
     }
 
@@ -34,7 +34,7 @@ class ServiceProvider extends BaseServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../../config/image.php',
+            __DIR__ . '/../config/image.php',
             $this::BINDING
         );
 
