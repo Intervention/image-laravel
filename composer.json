@@ -16,9 +16,17 @@
         "illuminate/support": "^10.0",
         "intervention/image": "^3"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    },
     "autoload": {
         "psr-4": {
             "Intervention\\Image\\Laravel\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Intervention\\Image\\Laravel\\Tests\\": "tests"
         }
     },
     "extra": {
