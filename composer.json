@@ -27,7 +27,7 @@
                 "Intervention\\Image\\Laravel\\ServiceProvider"
             ],
             "aliases": {
-                "Image": "Intervention\\Image\\Laravel\\ImageFacade"
+                "Image": "Intervention\\Image\\Laravel\\Facades\\Image"
             }
         }
     }

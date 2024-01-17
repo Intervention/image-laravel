@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Laravel;
+namespace Intervention\Image\Laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class ImageFacade extends Facade
+class Image extends Facade
 {
     /**
      * @method \Intervention\Image\ImageManager read(mixed $input, string|array|DecoderInterface $decoders = [])
