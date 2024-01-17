@@ -1,9 +1,9 @@
 # Intervention Image Laravel
 ## Laravel Integration for Intervention Image
 
-[![Latest Version](https://img.shields.io/packagist/v/intervention/intervention-laravel.svg)](https://packagist.org/packages/intervention/intervention-laravel)
-[![Tests](https://github.com/Intervention/intervention-laravel/actions/workflows/build.yml/badge.svg)](https://github.com/Intervention/intervention-laravel/actions/workflows/build.yml)
-[![Monthly Downloads](https://img.shields.io/packagist/dm/intervention/intervention-laravel.svg)](https://packagist.org/packages/intervention/intervention-laravel/stats)
+[![Latest Version](https://img.shields.io/packagist/v/intervention/image-laravel.svg)](https://packagist.org/packages/intervention/image-laravel)
+[![Tests](https://github.com/Intervention/image-laravel/actions/workflows/build.yml/badge.svg)](https://github.com/Intervention/image-laravel/actions/workflows/build.yml)
+[![Monthly Downloads](https://img.shields.io/packagist/dm/intervention/image-laravel.svg)](https://packagist.org/packages/intervention/image-laravel/stats)
 
 This package provides an integration to setup [Intervention
 Image](https://image.intervention.io) easily to your Laravel application.
