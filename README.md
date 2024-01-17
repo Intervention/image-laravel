@@ -12,7 +12,7 @@ file.
 
 ## Installation
 
-You can easily install this package using [Composer](https://getcomposer.org).
+In your existing Laravel application you can install this package using [Composer](https://getcomposer.org).
 
 ```bash
 composer require intervention/image-laravel
@@ -32,7 +32,7 @@ to use GD library for image processing.
 ## Getting started
 
 The integration is now complete and it is possible to access the [ImageManager](https://image.intervention.io/v3/basics/instantiation)
-via Laravel's facade.
+via Laravel's facade system.
 
 ```php
 use Intervention\Image\Laravel\Facades\Image;
