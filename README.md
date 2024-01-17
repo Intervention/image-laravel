@@ -1,8 +1,8 @@
 # Intervention Image Laravel
-## Laravel Integration of Intervention Image
+## Laravel Integration for Intervention Image
 
 This package provides an integration to setup [Intervention
-Image](https://image.intervention.io/) easily to your Laravel application.
+Image](https://image.intervention.io) easily to your Laravel application.
 Included are a Laravel service provider, facade and a publishable configuration
 file.
 
@@ -36,6 +36,8 @@ Route::get('/', function () {
     $image = Image::create(300, 200);
 });
 ```
+
+Read the [official documentation of Intervention Image](https://image.intervention.io) for more information.
 
 ## License
 
