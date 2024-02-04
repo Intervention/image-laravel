@@ -1,0 +1,2 @@
+providers:
+    - Intervention\Image\Laravel\ServiceProvider
