@@ -8,3 +8,5 @@
 /phpunit.xml.dist export-ignore
 /docker-compose.yml export-ignore
 /Dockerfile export-ignore
+/coverage export-ignore
+/testbench.yml export-ignore
