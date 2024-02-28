@@ -2,7 +2,7 @@
 build/
 vendor/
 .DS_Store
-.phpunit.result.cache
+/.phpunit.cache
 composer.lock
 phpunit.xml
 coverage/
