@@ -14,7 +14,7 @@ use ReflectionClass;
 use TypeError;
 use ValueError;
 
-class FacadeTest extends TestCase
+final class FacadeTest extends TestCase
 {
     public function testImageFacadeIsASubclassOfFacade(): void
     {
