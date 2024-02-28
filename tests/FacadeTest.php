@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Laravel\Tests;
 
-use Error;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Laravel\Facades\Image;
+use Orchestra\Testbench\Concerns\WithWorkbench;
+use Orchestra\Testbench\TestCase as TestBenchTestCase;
 use ReflectionClass;
 use TypeError;
 use ValueError;
 
-final class FacadeTest extends TestCase
+final class FacadeTest extends TestBenchTestCase
 {
+    use WithWorkbench;
+
     public function testImageFacadeIsASubclassOfFacade(): void
     {
         $facade = new ReflectionClass('Illuminate\Support\Facades\Facade');
