@@ -10,6 +10,10 @@ Image](https://image.intervention.io) easily to your Laravel application.
 Included are a Laravel service provider, facade and a publishable configuration
 file.
 
+## Requirements
+
+- Laravel >= 8
+
 ## Installation
 
 In your existing Laravel application you can install this package using [Composer](https://getcomposer.org).
