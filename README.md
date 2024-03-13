@@ -48,8 +48,12 @@ Route::get('/', function () {
 
 Read the [official documentation of Intervention Image](https://image.intervention.io) for more information.
 
+## Authors
+
+This library is developed and maintained by [Oliver Vogel](https://intervention.io)
+
+Thanks to the community of [contributors](https://github.com/Intervention/image-laravel/graphs/contributors) who have helped to improve this project.
+
 ## License
 
-Intervention Image is licensed under the [MIT License](http://opensource.org/licenses/MIT).
-
-Copyright 2024 [Oliver Vogel](http://intervention.io/)
+Intervention Image Laravel is licensed under the [MIT License](LICENSE).
