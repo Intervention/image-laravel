@@ -28,7 +28,7 @@ return [
     | - `autoOrientation` controls whether an imported image should be
     |    automatically rotated according to any existing Exif data.
     |
-    | - `decodeAnimation` decideds whether a possibly animated image is
+    | - `decodeAnimation` decides whether a possibly animated image is
     |    decoded as such or whether the animation is discarded.
     |
     | - `blendingColor` Defines the default blending color.

@@ -40,7 +40,7 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->app->singleton($this::BINDING, function ($app) {
             return new ImageManager(
-                config('image.driver'),
+                driver: config('image.driver'),
                 autoOrientation: config('image.options.autoOrientation', true),
                 decodeAnimation: config('image.options.decodeAnimation', true),
                 blendingColor: config('image.options.blendingColor', 'ffffff00')
