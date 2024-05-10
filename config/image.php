@@ -16,6 +16,28 @@ return [
     |
     */
 
-    'driver' => \Intervention\Image\Drivers\Gd\Driver::class
+    'driver' => \Intervention\Image\Drivers\Gd\Driver::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Configuration Options
+    |--------------------------------------------------------------------------
+    |
+    | These options control the default behavior of Intervention Image.
+    |
+    | - `autoOrientation` controls whether an imported image should be
+    |    automatically rotated according to any existing Exif data.
+    |
+    | - `decodeAnimation` decideds whether a possibly animated image is
+    |    decoded as such or whether the animation is discarded.
+    |
+    | - `blendingColor` Defines the default blending color.
+    */
+
+    'options' => [
+        'autoOrientation' => true,
+        'decodeAnimation' => true,
+        'blendingColor' => 'ffffff00',
+    ]
 
 ];
