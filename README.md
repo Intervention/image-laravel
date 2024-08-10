@@ -4,6 +4,7 @@
 [![Latest Version](https://img.shields.io/packagist/v/intervention/image-laravel.svg)](https://packagist.org/packages/intervention/image-laravel)
 [![Tests](https://github.com/Intervention/image-laravel/actions/workflows/build.yml/badge.svg)](https://github.com/Intervention/image-laravel/actions/workflows/build.yml)
 [![Monthly Downloads](https://img.shields.io/packagist/dm/intervention/image-laravel.svg)](https://packagist.org/packages/intervention/image-laravel/stats)
+[![Support me on Ko-fi](https://raw.githubusercontent.com/Intervention/image-laravel/main/.github/images/support.svg)](https://ko-fi.com/interventionphp)
 
 This package provides an integration to setup [Intervention
 Image](https://image.intervention.io) easily to your Laravel application.
