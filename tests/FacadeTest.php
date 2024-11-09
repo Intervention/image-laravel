@@ -67,8 +67,7 @@ final class FacadeTest extends TestBenchTestCase
 
     public function testAnimateAnImage(): void
     {
-        $callback = function () {};
-        $result = Image::animate($callback);
+        $result = Image::animate(fn () => null);
         $this->assertInstanceOf(ImageInterface::class, $result);
     }
 
