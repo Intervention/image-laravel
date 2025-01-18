@@ -43,7 +43,8 @@ class ServiceProvider extends BaseServiceProvider
                 driver: config('image.driver'),
                 autoOrientation: config('image.options.autoOrientation', true),
                 decodeAnimation: config('image.options.decodeAnimation', true),
-                blendingColor: config('image.options.blendingColor', 'ffffff')
+                blendingColor: config('image.options.blendingColor', 'ffffff'),
+                strip: config('image.options.strip', false)
             );
         });
     }
