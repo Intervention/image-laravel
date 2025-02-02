@@ -10,8 +10,10 @@ use Intervention\Image\EncodedImage;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\Image;
+use Intervention\Image\MediaType;
 
 class ImageResponseFactory
 {
@@ -26,13 +28,13 @@ class ImageResponseFactory
      * Create new ImageResponseFactory instance
      *
      * @param Image|EncodedImage $image
-     * @param null|string|Format $format
+     * @param null|string|Format|MediaType|FileExtension $format
      * @param mixed ...$options
      * @return void
      */
     public function __construct(
         protected Image|EncodedImage $image,
-        protected null|string|Format $format = null,
+        protected null|string|Format|MediaType|FileExtension $format = null,
         mixed ...$options
     ) {
         $this->options = $options;
@@ -42,15 +44,18 @@ class ImageResponseFactory
      * Static factory method to create HTTP response directly
      *
      * @param Image $image
-     * @param null|string|Format $format
+     * @param null|string|Format|MediaType|FileExtension $format
      * @param mixed ...$options
      * @throws NotSupportedException
      * @throws DriverException
      * @throws RuntimeException
      * @return Response
      */
-    public static function make(Image $image, null|string|Format $format = null, mixed ...$options): Response
-    {
+    public static function make(
+        Image $image,
+        null|string|Format|MediaType|FileExtension $format = null,
+        mixed ...$options,
+    ): Response {
         return (new self($image, $format, ...$options))->response();
     }
 
@@ -107,6 +112,14 @@ class ImageResponseFactory
     {
         if ($this->format instanceof Format) {
             return $this->format;
+        }
+
+        if (($this->format instanceof MediaType)) {
+            return $this->format->format();
+        }
+
+        if ($this->format instanceof FileExtension) {
+            return $this->format->format();
         }
 
         if (is_string($this->format)) {

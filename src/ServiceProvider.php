@@ -9,7 +9,9 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Image;
 use Illuminate\Http\Response;
+use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
+use Intervention\Image\MediaType;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -36,7 +38,7 @@ class ServiceProvider extends BaseServiceProvider
                 $this::BINDING,
                 fn(
                     Image $image,
-                    null|string|Format $format = null,
+                    null|string|Format|MediaType|FileExtension $format = null,
                     mixed ...$options,
                 ): Response
                 => ImageResponseFactory::make($image, $format, ...$options)
