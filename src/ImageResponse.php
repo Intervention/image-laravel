@@ -26,13 +26,13 @@ class ImageResponse
      * Create new ImageResponse instance
      *
      * @param Image|EncodedImage $image
-     * @param null|Format $format
+     * @param null|string|Format $format
      * @param mixed ...$options
      * @return void
      */
     public function __construct(
         protected Image|EncodedImage $image,
-        protected ?Format $format = null,
+        protected null|string|Format $format = null,
         mixed ...$options
     ) {
         $this->options = $options;
@@ -42,14 +42,14 @@ class ImageResponse
      * Static factory method
      *
      * @param Image $image
-     * @param null|Format $format
+     * @param null|string|Format $format
      * @param mixed ...$options
      * @throws NotSupportedException
      * @throws DriverException
      * @throws RuntimeException
      * @return Response
      */
-    public static function make(Image $image, ?Format $format = null, mixed ...$options): Response
+    public static function make(Image $image, null|string|Format $format = null, mixed ...$options): Response
     {
         $generator = new self($image, $format, ...$options);
 
@@ -94,8 +94,12 @@ class ImageResponse
      */
     private function format(): Format
     {
-        if ($this->format) {
+        if ($this->format instanceof Format) {
             return $this->format;
+        }
+
+        if (is_string($this->format)) {
+            return Format::create($this->format);
         }
 
         return Format::tryCreate($this->image->origin()->mediaType()) ?? Format::JPEG;

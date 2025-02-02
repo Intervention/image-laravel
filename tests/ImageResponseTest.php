@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Laravel\Tests;
 
 use finfo;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Format;
 use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
@@ -40,6 +41,30 @@ class ImageResponseTest extends TestBenchTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/jpeg', $response->headers->get('content-type'));
         $this->assertMimeType('image/jpeg', $response->content());
+    }
+
+    public function testStringFormat(): void
+    {
+        $response = ImageResponse::make($this->testImage(), 'gif');
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('image/gif', $response->headers->get('content-type'));
+        $this->assertMimeType('image/gif', $response->content());
+
+        $response = ImageResponse::make(ImageManager::gd()->read($this->testImage()->toGif()), 'jpg');
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('image/jpeg', $response->headers->get('content-type'));
+        $this->assertMimeType('image/jpeg', $response->content());
+
+        $response = ImageResponse::make(ImageManager::gd()->read($this->testImage()->toGif()), 'image/jpeg');
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('image/jpeg', $response->headers->get('content-type'));
+        $this->assertMimeType('image/jpeg', $response->content());
+    }
+
+    public function testUnknownFormat(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        ImageResponse::make($this->testImage(), 'unknown');
     }
 
     public function testWithEncoderOptions(): void

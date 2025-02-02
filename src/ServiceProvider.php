@@ -36,7 +36,7 @@ class ServiceProvider extends BaseServiceProvider
                 'image',
                 fn(
                     Image $image,
-                    ?Format $format = null,
+                    null|string|Format $format = null,
                     mixed ...$options,
                 ): Response
                 => ImageResponse::make($image, $format, ...$options)
