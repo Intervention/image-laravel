@@ -16,11 +16,6 @@ use Intervention\Image\MediaType;
 class ServiceProvider extends BaseServiceProvider
 {
     /**
-     * Binding name of the service container
-     */
-    protected const BINDING = 'image';
-
-    /**
      * Bootstrap application events
      *
      * @return void
@@ -29,12 +24,12 @@ class ServiceProvider extends BaseServiceProvider
     {
         // define config files for publishing
         $this->publishes([
-            __DIR__ . '/../config/image.php' => config_path($this::BINDING . '.php')
+            __DIR__ . '/../config/image.php' => config_path(Facades\Image::BINDING . '.php')
         ]);
 
         // register response macro "image"
-        if (!ResponseFacade::hasMacro($this::BINDING)) {
-            Response::macro($this::BINDING, function (
+        if (!ResponseFacade::hasMacro(Facades\Image::BINDING)) {
+            Response::macro(Facades\Image::BINDING, function (
                 Image $image,
                 null|string|Format|MediaType|FileExtension $format = null,
                 mixed ...$options,
@@ -53,10 +48,10 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->mergeConfigFrom(
             __DIR__ . '/../config/image.php',
-            $this::BINDING
+            Facades\Image::BINDING
         );
 
-        $this->app->singleton($this::BINDING, function () {
+        $this->app->singleton(Facades\Image::BINDING, function () {
             return new ImageManager(
                 driver: config('image.driver'),
                 autoOrientation: config('image.options.autoOrientation', true),
