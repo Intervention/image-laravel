@@ -23,16 +23,29 @@ In your existing Laravel application you can install this package using [Compose
 composer require intervention/image-laravel
 ```
 
-Next, add the configuration files to your application using the `vendor:publish` command:
+## Features
+
+Although Intervention Image can be used with Laravel without this extension,
+this intergration package includes the following features that make image
+interaction with the framework much easier.
+
+### Application-wide configuration
+
+The extension comes with a global configuration file that is recognized by
+Laravel. It is therefore possible to store the settings for Intervention Image
+once centrally and not have to define them individually each time you call the
+image manager.
+
+The configuration file can be copied to the application with the following command.
 
 ```bash
 php artisan vendor:publish --provider="Intervention\Image\Laravel\ServiceProvider"
 ```
 
-This command will publish the configuration file `image.php` for the image
-integration to your `app/config` directory. In this file you can set the
-desired driver and its configuration options for Intervention Image. By default
-the library is configured to use GD library for image processing.
+This command will publish the configuration file `config/image.php`. Here you
+can set the desired driver and its configuration options for Intervention
+Image. By default the library is configured to use GD library for image
+processing.
 
 The configuration files looks like this.
 
@@ -89,24 +102,50 @@ You can read more about the different options for
 [decoding animations](https://image.intervention.io/v3/modifying/animations) and 
 [blending color](https://image.intervention.io/v3/basics/colors#transparency).
 
-## Getting started
+### Static Facade Interface
 
-The integration is now complete and it is possible to access the [ImageManager](https://image.intervention.io/v3/basics/instantiation)
-via Laravel's facade system. The package also includes a response macro that can be used to elegantly convert an image resource into an HTTP response.
+This package also integrates access to Intervention Image's central entry
+point, the `ImageManager::class`, via a static [facade](https://laravel.com/docs/11.x/facades). The call provides access to the
+centrally configured [image manager](https://image.intervention.io/v3/basics/instantiation) via singleton pattern.
+
+The following code example shows how to read an image with the image facade in a Laravel route.
 
 ```php
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
-use Intervention\Image\Format;
 
 Route::get('/', function () {
     $image = Image::read(Storage::get('example.jpg'))
-        ->place(resource_path('images/watermark.png'));
+        ->resize(300, 200);
+});
+```
+
+### Image Response Macro
+
+Furthermore, the package also includes a response macro that can be used to
+elegantly convert an image resource into an HTTP response.
+
+The following code example shows how to read an image from a upload request
+place and use the image response macro to encode it and send the image back to
+the user in one call. Only the first parameter is required.
+
+```php
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Laravel\Facades\Image;
+
+Route::get('/', function (Request $request) {
+    $upload = $request->file('image');
+    $image = Image::read($request)
+        ->scale(300, 200);
 
     return response()->image($image, Format::WEBP, quality: 65);
 });
 ```
 
-Read the [official documentation of Intervention Image](https://image.intervention.io) for more information.
+You can read more about intervention image in general in the [official documentation of Intervention Image](https://image.intervention.io).
 
 ## Authors
 
