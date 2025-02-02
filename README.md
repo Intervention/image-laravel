@@ -99,7 +99,8 @@ use Intervention\Image\Laravel\Facades\Image;
 use Intervention\Image\Format;
 
 Route::get('/', function () {
-    $image = Image::read('images/example.jpg');
+    $image = Image::read(Storage::get('example.jpg'))
+        ->place(resource_path('images/watermark.png'));
 
     return response()->image($image, Format::WEBP, quality: 65);
 });
