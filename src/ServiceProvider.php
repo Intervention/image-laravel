@@ -34,15 +34,13 @@ class ServiceProvider extends BaseServiceProvider
 
         // register response macro "image"
         if (!ResponseFacade::hasMacro($this::BINDING)) {
-            Response::macro(
-                $this::BINDING,
-                fn(
-                    Image $image,
-                    null|string|Format|MediaType|FileExtension $format = null,
-                    mixed ...$options,
-                ): Response
-                => ImageResponseFactory::make($image, $format, ...$options)
-            );
+            Response::macro($this::BINDING, function (
+                Image $image,
+                null|string|Format|MediaType|FileExtension $format = null,
+                mixed ...$options,
+            ): Response {
+                return ImageResponseFactory::make($image, $format, ...$options);
+            });
         }
     }
 
@@ -58,7 +56,7 @@ class ServiceProvider extends BaseServiceProvider
             $this::BINDING
         );
 
-        $this->app->singleton($this::BINDING, function ($app) {
+        $this->app->singleton($this::BINDING, function () {
             return new ImageManager(
                 driver: config('image.driver'),
                 autoOrientation: config('image.options.autoOrientation', true),
