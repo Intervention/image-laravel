@@ -92,13 +92,16 @@ You can read more about the different options for
 ## Getting started
 
 The integration is now complete and it is possible to access the [ImageManager](https://image.intervention.io/v3/basics/instantiation)
-via Laravel's facade system.
+via Laravel's facade system. The package also includes a response macro that can be used to elegantly convert an image resource into an HTTP response.
 
 ```php
 use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\Format;
 
 Route::get('/', function () {
     $image = Image::read('images/example.jpg');
+
+    return response()->image($image, Format::WEBP, quality: 65);
 });
 ```
 

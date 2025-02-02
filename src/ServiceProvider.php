@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Laravel;
 
+use Illuminate\Support\Facades\Response as ResponseFacade;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Intervention\Image\ImageManager;
+use Intervention\Image\Image;
+use Illuminate\Http\Response;
+use Intervention\Image\Format;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -21,9 +25,23 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
+        // define config files for publishing
         $this->publishes([
             __DIR__ . '/../config/image.php' => config_path($this::BINDING . '.php')
         ]);
+
+        // register response macro "image"
+        if (!ResponseFacade::hasMacro('image')) {
+            Response::macro(
+                'image',
+                fn(
+                    Image $image,
+                    ?Format $format = null,
+                    mixed ...$options,
+                ): Response
+                => ImageResponse::make($image, $format, ...$options)
+            );
+        }
     }
 
     /**
