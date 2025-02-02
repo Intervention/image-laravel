@@ -22,6 +22,11 @@ class ImageResponseTest extends TestBenchTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/jpeg', $response->headers->get('content-type'));
         $this->assertMimeType('image/jpeg', $response->content());
+
+        $response = ImageResponse::make(ImageManager::gd()->read($this->testImage()->toGif()));
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('image/gif', $response->headers->get('content-type'));
+        $this->assertMimeType('image/gif', $response->content());
     }
 
     public function testNonDefaultFormat(): void
@@ -30,6 +35,11 @@ class ImageResponseTest extends TestBenchTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/gif', $response->headers->get('content-type'));
         $this->assertMimeType('image/gif', $response->content());
+
+        $response = ImageResponse::make(ImageManager::gd()->read($this->testImage()->toGif()), Format::JPEG);
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('image/jpeg', $response->headers->get('content-type'));
+        $this->assertMimeType('image/jpeg', $response->content());
     }
 
     public function testWithEncoderOptions(): void

@@ -88,12 +88,16 @@ class ImageResponse
     }
 
     /**
-     * Determine the format in the image response
+     * Determine the target format of the image in the HTTP response
      *
      * @return Format
      */
     private function format(): Format
     {
-        return $this->format ?? Format::JPEG;
+        if ($this->format) {
+            return $this->format;
+        }
+
+        return Format::tryCreate($this->image->origin()->mediaType()) ?? Format::JPEG;
     }
 }
