@@ -13,7 +13,7 @@ use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Format;
 use Intervention\Image\Image;
 
-class ImageResponse
+class ImageResponseFactory
 {
     /**
      * Image encoder options
@@ -23,7 +23,7 @@ class ImageResponse
     protected array $options = [];
 
     /**
-     * Create new ImageResponse instance
+     * Create new ImageResponseFactory instance
      *
      * @param Image|EncodedImage $image
      * @param null|string|Format $format
@@ -39,7 +39,7 @@ class ImageResponse
     }
 
     /**
-     * Static factory method
+     * Static factory method to create HTTP response directly
      *
      * @param Image $image
      * @param null|string|Format $format
@@ -51,11 +51,22 @@ class ImageResponse
      */
     public static function make(Image $image, null|string|Format $format = null, mixed ...$options): Response
     {
-        $generator = new self($image, $format, ...$options);
+        return (new self($image, $format, ...$options))->response();
+    }
 
+    /**
+     * Create HTTP response
+     *
+     * @throws NotSupportedException
+     * @throws DriverException
+     * @throws RuntimeException
+     * @return Response
+     */
+    public function response(): Response
+    {
         return ResponseFactory::make(
-            content: $generator->content(),
-            headers: $generator->headers()
+            content: $this->content(),
+            headers: $this->headers()
         );
     }
 

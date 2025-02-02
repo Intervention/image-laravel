@@ -9,22 +9,22 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Format;
 use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
-use Intervention\Image\Laravel\ImageResponse;
+use Intervention\Image\Laravel\ImageResponseFactory;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as TestBenchTestCase;
 
-class ImageResponseTest extends TestBenchTestCase
+class ImageResponseFactoryTest extends TestBenchTestCase
 {
     use WithWorkbench;
 
     public function testDefaultFormat(): void
     {
-        $response = ImageResponse::make($this->testImage());
+        $response = ImageResponseFactory::make($this->testImage());
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/jpeg', $response->headers->get('content-type'));
         $this->assertMimeType('image/jpeg', $response->content());
 
-        $response = ImageResponse::make(ImageManager::gd()->read($this->testImage()->toGif()));
+        $response = ImageResponseFactory::make(ImageManager::gd()->read($this->testImage()->toGif()));
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/gif', $response->headers->get('content-type'));
         $this->assertMimeType('image/gif', $response->content());
@@ -32,12 +32,12 @@ class ImageResponseTest extends TestBenchTestCase
 
     public function testNonDefaultFormat(): void
     {
-        $response = ImageResponse::make($this->testImage(), Format::GIF);
+        $response = ImageResponseFactory::make($this->testImage(), Format::GIF);
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/gif', $response->headers->get('content-type'));
         $this->assertMimeType('image/gif', $response->content());
 
-        $response = ImageResponse::make(ImageManager::gd()->read($this->testImage()->toGif()), Format::JPEG);
+        $response = ImageResponseFactory::make(ImageManager::gd()->read($this->testImage()->toGif()), Format::JPEG);
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/jpeg', $response->headers->get('content-type'));
         $this->assertMimeType('image/jpeg', $response->content());
@@ -45,17 +45,17 @@ class ImageResponseTest extends TestBenchTestCase
 
     public function testStringFormat(): void
     {
-        $response = ImageResponse::make($this->testImage(), 'gif');
+        $response = ImageResponseFactory::make($this->testImage(), 'gif');
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/gif', $response->headers->get('content-type'));
         $this->assertMimeType('image/gif', $response->content());
 
-        $response = ImageResponse::make(ImageManager::gd()->read($this->testImage()->toGif()), 'jpg');
+        $response = ImageResponseFactory::make(ImageManager::gd()->read($this->testImage()->toGif()), 'jpg');
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/jpeg', $response->headers->get('content-type'));
         $this->assertMimeType('image/jpeg', $response->content());
 
-        $response = ImageResponse::make(ImageManager::gd()->read($this->testImage()->toGif()), 'image/jpeg');
+        $response = ImageResponseFactory::make(ImageManager::gd()->read($this->testImage()->toGif()), 'image/jpeg');
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/jpeg', $response->headers->get('content-type'));
         $this->assertMimeType('image/jpeg', $response->content());
@@ -64,12 +64,12 @@ class ImageResponseTest extends TestBenchTestCase
     public function testUnknownFormat(): void
     {
         $this->expectException(NotSupportedException::class);
-        ImageResponse::make($this->testImage(), 'unknown');
+        ImageResponseFactory::make($this->testImage(), 'unknown');
     }
 
     public function testWithEncoderOptions(): void
     {
-        $response = ImageResponse::make($this->testImage(), Format::JPEG, quality: 10);
+        $response = ImageResponseFactory::make($this->testImage(), Format::JPEG, quality: 10);
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/jpeg', $response->headers->get('content-type'));
         $this->assertMimeType('image/jpeg', $response->content());

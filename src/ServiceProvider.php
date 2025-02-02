@@ -39,7 +39,7 @@ class ServiceProvider extends BaseServiceProvider
                     null|string|Format $format = null,
                     mixed ...$options,
                 ): Response
-                => ImageResponse::make($image, $format, ...$options)
+                => ImageResponseFactory::make($image, $format, ...$options)
             );
         }
     }
