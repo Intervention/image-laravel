@@ -108,16 +108,26 @@ This package also integrates access to Intervention Image's central entry
 point, the `ImageManager::class`, via a static [facade](https://laravel.com/docs/11.x/facades). The call provides access to the
 centrally configured [image manager](https://image.intervention.io/v3/basics/instantiation) via singleton pattern.
 
-The following code example shows how to read an image with the image facade in a Laravel route.
+The following code example shows how to read an image from an upload request
+the image facade in a Laravel route and save it on disk with a random file
+name.
 
 ```php
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
 
-Route::get('/', function () {
-    $image = Image::read(Storage::get('example.jpg'))
+Route::get('/', function (Request $request) {
+    $upload = $request->file('image');
+    $image = Image::read($upload)
         ->resize(300, 200);
+
+    Storage::put(
+        Str::random() . '.' . $upload->getClientOriginalExtension(),
+        $image->encodeByExtension($upload->getClientOriginalExtension(), quality: 70)
+    );
 });
 ```
 
@@ -126,19 +136,18 @@ Route::get('/', function () {
 Furthermore, the package also includes a response macro that can be used to
 elegantly convert an image resource into an HTTP response.
 
-The following code example shows how to read an image from a upload request
-place and use the image response macro to encode it and send the image back to
+The following code example shows how to read an image from disk
+apply modifications and use the image response macro to encode it and send the image back to
 the user in one call. Only the first parameter is required.
 
 ```php
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Format;
 use Intervention\Image\Laravel\Facades\Image;
 
-Route::get('/', function (Request $request) {
-    $upload = $request->file('image');
-    $image = Image::read($request)
+Route::get('/', function () {
+    $image = Image::read(Storage::get('example.jpg'))
         ->scale(300, 200);
 
     return response()->image($image, Format::WEBP, quality: 65);
