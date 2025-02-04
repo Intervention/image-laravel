@@ -6,7 +6,6 @@ namespace Intervention\Image\Laravel;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Response as  ResponseFactory;
-use Intervention\Image\EncodedImage;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
@@ -27,13 +26,13 @@ class ImageResponseFactory
     /**
      * Create new ImageResponseFactory instance
      *
-     * @param Image|EncodedImage $image
+     * @param Image $image
      * @param null|string|Format|MediaType|FileExtension $format
      * @param mixed ...$options
      * @return void
      */
     public function __construct(
-        protected Image|EncodedImage $image,
+        protected Image $image,
         protected null|string|Format|MediaType|FileExtension $format = null,
         mixed ...$options
     ) {
