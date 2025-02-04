@@ -13,8 +13,13 @@ use Illuminate\Support\Facades\Facade;
  */
 class Image extends Facade
 {
+    /**
+     * Binding name of the service container
+     */
+    public const BINDING = 'image';
+
     protected static function getFacadeAccessor()
     {
-        return 'image';
+        return self::BINDING;
     }
 }
