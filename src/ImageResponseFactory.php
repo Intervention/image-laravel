@@ -125,6 +125,8 @@ class ImageResponseFactory
             return Format::create($this->format);
         }
 
+        // target format is undefined (null) at this point:
+        // try to extract the original image format or use jpeg by default.
         return Format::tryCreate($this->image->origin()->mediaType()) ?? Format::JPEG;
     }
 }
