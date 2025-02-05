@@ -136,9 +136,9 @@ Route::get('/', function (Request $request) {
 Furthermore, the package also includes a response macro that can be used to
 elegantly convert an image resource into an HTTP response.
 
-The following code example shows how to read an image from disk
-apply modifications and use the image response macro to encode it and send the image back to
-the user in one call. Only the first parameter is required.
+The following code example shows how to read an image from disk, apply
+modifications and use the image response macro to encode it and send the image
+back to the user in one call. Only the first parameter is required.
 
 ```php
 use Illuminate\Support\Facades\Route;
