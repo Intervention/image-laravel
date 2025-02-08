@@ -23,16 +23,29 @@ In your existing Laravel application you can install this package using [Compose
 composer require intervention/image-laravel
 ```
 
-Next, add the configuration files to your application using the `vendor:publish` command:
+## Features
+
+Although Intervention Image can be used with Laravel without this extension,
+this intergration package includes the following features that make image
+interaction with the framework much easier.
+
+### Application-wide configuration
+
+The extension comes with a global configuration file that is recognized by
+Laravel. It is therefore possible to store the settings for Intervention Image
+once centrally and not have to define them individually each time you call the
+image manager.
+
+The configuration file can be copied to the application with the following command.
 
 ```bash
 php artisan vendor:publish --provider="Intervention\Image\Laravel\ServiceProvider"
 ```
 
-This command will publish the configuration file `image.php` for the image
-integration to your `app/config` directory. In this file you can set the
-desired driver and its configuration options for Intervention Image. By default
-the library is configured to use GD library for image processing.
+This command will publish the configuration file `config/image.php`. Here you
+can set the desired driver and its configuration options for Intervention
+Image. By default the library is configured to use GD library for image
+processing.
 
 The configuration files looks like this.
 
@@ -89,20 +102,60 @@ You can read more about the different options for
 [decoding animations](https://image.intervention.io/v3/modifying/animations) and 
 [blending color](https://image.intervention.io/v3/basics/colors#transparency).
 
-## Getting started
+### Static Facade Interface
 
-The integration is now complete and it is possible to access the [ImageManager](https://image.intervention.io/v3/basics/instantiation)
-via Laravel's facade system.
+This package also integrates access to Intervention Image's central entry
+point, the `ImageManager::class`, via a static [facade](https://laravel.com/docs/11.x/facades). The call provides access to the
+centrally configured [image manager](https://image.intervention.io/v3/basics/instantiation) via singleton pattern.
+
+The following code example shows how to read an image from an upload request
+the image facade in a Laravel route and save it on disk with a random file
+name.
 
 ```php
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
 
-Route::get('/', function () {
-    $image = Image::read('images/example.jpg');
+Route::get('/', function (Request $request) {
+    $upload = $request->file('image');
+    $image = Image::read($upload)
+        ->resize(300, 200);
+
+    Storage::put(
+        Str::random() . '.' . $upload->getClientOriginalExtension(),
+        $image->encodeByExtension($upload->getClientOriginalExtension(), quality: 70)
+    );
 });
 ```
 
-Read the [official documentation of Intervention Image](https://image.intervention.io) for more information.
+### Image Response Macro
+
+Furthermore, the package includes a response macro that can be used to
+elegantly encode an image resource and convert it to an HTTP response in a
+single step.
+
+The following code example shows how to read an image from disk apply
+modifications and use the image response macro to encode it and send the image
+back to the user in one call. Only the first parameter is required.
+
+```php
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Format;
+use Intervention\Image\Laravel\Facades\Image;
+
+Route::get('/', function () {
+    $image = Image::read(Storage::get('example.jpg'))
+        ->scale(300, 200);
+
+    return response()->image($image, Format::WEBP, quality: 65);
+});
+```
+
+You can read more about intervention image in general in the [official documentation of Intervention Image](https://image.intervention.io).
 
 ## Authors
 
