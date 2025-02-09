@@ -27,7 +27,7 @@
     "require-dev": {
         "ext-fileinfo": "*",
         "phpunit/phpunit": "^10.0 || ^11.0 || ^12.0",
-        "orchestra/testbench": "^9.9"
+        "orchestra/testbench": "^8.18 || ^9.9"
     },
     "autoload": {
         "psr-4": {
