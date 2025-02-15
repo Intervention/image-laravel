@@ -29,7 +29,7 @@ class ServiceProvider extends BaseServiceProvider
 
         // register response macro "image"
         if (!ResponseFacade::hasMacro(Facades\Image::BINDING)) {
-            Response::macro(Facades\Image::BINDING, function (
+            ResponseFacade::macro(Facades\Image::BINDING, function (
                 Image $image,
                 null|string|Format|MediaType|FileExtension $format = null,
                 mixed ...$options,
