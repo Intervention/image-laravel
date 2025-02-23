@@ -27,16 +27,18 @@ class ServiceProvider extends BaseServiceProvider
             __DIR__ . '/../config/image.php' => config_path(Facades\Image::BINDING . '.php')
         ]);
 
-        // register response macro "image"
-        if (!ResponseFacade::hasMacro(Facades\Image::BINDING)) {
-            ResponseFacade::macro(Facades\Image::BINDING, function (
-                Image $image,
-                null|string|Format|MediaType|FileExtension $format = null,
-                mixed ...$options,
-            ): Response {
-                return ImageResponseFactory::make($image, $format, ...$options);
-            });
-        }
+        $this->app->booted(function (): void {
+            // register response macro "image"
+            if (!ResponseFacade::hasMacro(Facades\Image::BINDING)) {
+                ResponseFacade::macro(Facades\Image::BINDING, function (
+                    Image $image,
+                    null|string|Format|MediaType|FileExtension $format = null,
+                    mixed ...$options,
+                ): Response {
+                    return ImageResponseFactory::make($image, $format, ...$options);
+                });
+            }
+        });
     }
 
     /**
