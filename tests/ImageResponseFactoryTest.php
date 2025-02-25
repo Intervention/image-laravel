@@ -12,13 +12,10 @@ use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Laravel\ImageResponseFactory;
 use Intervention\Image\MediaType;
-use Orchestra\Testbench\Concerns\WithWorkbench;
-use Orchestra\Testbench\TestCase as TestBenchTestCase;
+use PHPUnit\Framework\TestCase;
 
-class ImageResponseFactoryTest extends TestBenchTestCase
+class ImageResponseFactoryTest extends TestCase
 {
-    use WithWorkbench;
-
     protected Image $image;
 
     protected function setUp(): void
