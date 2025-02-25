@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Laravel;
 
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Response as  ResponseFactory;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
@@ -68,7 +67,7 @@ class ImageResponseFactory
      */
     public function response(): Response
     {
-        return ResponseFactory::make(
+        return new Response(
             content: $this->content(),
             headers: $this->headers()
         );
