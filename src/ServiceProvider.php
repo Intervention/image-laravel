@@ -29,7 +29,7 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->app->booted(function (): void {
             // register response macro "image"
-            if (!$this->app->runningInConsole() && !ResponseFacade::hasMacro(Facades\Image::BINDING)) {
+            if ($this->shouldCreateResponseMacro()) {
                 ResponseFacade::macro(Facades\Image::BINDING, function (
                     Image $image,
                     null|string|Format|MediaType|FileExtension $format = null,
@@ -62,5 +62,17 @@ class ServiceProvider extends BaseServiceProvider
                 strip: config('image.options.strip', false)
             );
         });
+    }
+
+    /**
+     * Determine if response macro should be created
+     */
+    private function shouldCreateResponseMacro(): bool
+    {
+        if (!$this->app->runningUnitTests() && $this->app->runningInConsole()) {
+            return false;
+        }
+
+        return !ResponseFacade::hasMacro(Facades\Image::BINDING);
     }
 }
