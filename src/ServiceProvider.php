@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Laravel;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Response as ResponseFacade;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Intervention\Image\ImageManager;
@@ -27,7 +28,7 @@ class ServiceProvider extends BaseServiceProvider
             __DIR__ . '/../config/image.php' => config_path(Facades\Image::BINDING . '.php')
         ]);
 
-        $this->app->booted(function (): void {
+        $this->app->afterResolving(ResponseFactory::class, function (): void {
             // register response macro "image"
             if ($this->shouldCreateResponseMacro()) {
                 ResponseFacade::macro(Facades\Image::BINDING, function (
