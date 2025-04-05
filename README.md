@@ -26,7 +26,7 @@ composer require intervention/image-laravel
 ## Features
 
 Although Intervention Image can be used with Laravel without this extension,
-this intergration package includes the following features that make image
+this integration package includes the following features that make image
 interaction with the framework much easier.
 
 ### Application-wide configuration
