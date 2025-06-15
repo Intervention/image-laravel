@@ -10,3 +10,4 @@
 /Dockerfile export-ignore
 /coverage export-ignore
 /testbench.yml export-ignore
+CONTRIBUTING.md export-ignore
