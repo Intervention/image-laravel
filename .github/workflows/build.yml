@@ -21,7 +21,7 @@ jobs:
           tools: composer
 
       - name: Install PHP dependencies
-        run: composer install -q
+        run: composer install
 
       - name: Run phpunit
         run: vendor/bin/phpunit
