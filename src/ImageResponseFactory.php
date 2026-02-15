@@ -16,14 +16,14 @@ use Intervention\Image\MediaType;
 class ImageResponseFactory
 {
     /**
-     * Image encoder options
+     * Image encoder options.
      *
      * @var array<string, mixed>
      */
     protected array $options = [];
 
     /**
-     * Create new ImageResponseFactory instance
+     * Create new ImageResponseFactory instance.
      *
      * @param Image $image
      * @param null|string|Format|MediaType|FileExtension $format
@@ -39,7 +39,7 @@ class ImageResponseFactory
     }
 
     /**
-     * Static factory method to create HTTP response directly
+     * Static factory method to create HTTP response directly.
      *
      * @param Image $image
      * @param null|string|Format|MediaType|FileExtension $format
@@ -58,7 +58,7 @@ class ImageResponseFactory
     }
 
     /**
-     * Create HTTP response
+     * Create HTTP response.
      *
      * @throws NotSupportedException
      * @throws DriverException
@@ -74,7 +74,7 @@ class ImageResponseFactory
     }
 
     /**
-     * Read image contents
+     * Read image contents.
      *
      * @throws NotSupportedException
      * @throws DriverException
@@ -90,7 +90,7 @@ class ImageResponseFactory
     }
 
     /**
-     * Return HTTP response headers to be attached in the image response
+     * Return HTTP response headers to be attached in the image response.
      *
      * @return array
      */
@@ -102,7 +102,7 @@ class ImageResponseFactory
     }
 
     /**
-     * Determine the target format of the image in the HTTP response
+     * Determine the target format of the image in the HTTP response.
      *
      * @return Format
      */
@@ -112,7 +112,7 @@ class ImageResponseFactory
             return $this->format;
         }
 
-        if (($this->format instanceof MediaType)) {
+        if ($this->format instanceof MediaType) {
             return $this->format->format();
         }
 

@@ -6,14 +6,13 @@ namespace Intervention\Image\Laravel\Tests;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\FileNotFoundException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Images\Exceptions\InvalidArgumentException;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as TestBenchTestCase;
 use ReflectionClass;
-use TypeError;
-use ValueError;
 
 final class FacadeTest extends TestBenchTestCase
 {
@@ -38,43 +37,36 @@ final class FacadeTest extends TestBenchTestCase
     {
         Storage::fake('images');
         $input = UploadedFile::fake()->image('image.jpg');
-        $result = Image::read($input);
+        $result = Image::decode($input);
         $this->assertInstanceOf(ImageInterface::class, $result);
     }
 
     public function testThrowsExceptionWhenReadingNonExistentImage(): void
     {
-        $this->expectException(DecoderException::class);
+        $this->expectException(FileNotFoundException::class);
         $input = 'path/to/non_existent_image.jpg';
-        Image::read($input);
+        Image::decode($input);
     }
 
     public function testCreateAnImage(): void
     {
         $width = 200;
         $height = 200;
-        $result = Image::create($width, $height);
+        $result = Image::createImage($width, $height);
         $this->assertInstanceOf(ImageInterface::class, $result);
     }
 
     public function testThrowsExceptionWhenCreatingImageWithInvalidDimensions(): void
     {
-        $this->expectException(ValueError::class);
+        $this->expectException(InvalidArgumentException::class);
         $width = -200;
         $height = 200;
-        Image::create($width, $height);
+        Image::createImage($width, $height);
     }
 
     public function testAnimateAnImage(): void
     {
-        $result = Image::animate(fn () => null);
+        $result = Image::createImage(30, 20, fn () => null);
         $this->assertInstanceOf(ImageInterface::class, $result);
-    }
-
-    public function testThrowsExceptionWhenAnimatingImageWithInvalidCallback(): void
-    {
-        $this->expectException(TypeError::class);
-        $callback = 'not_callable';
-        Image::animate($callback);
     }
 }
