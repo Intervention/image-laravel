@@ -6,10 +6,10 @@ namespace Intervention\Image\Laravel\Tests;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Exceptions\FileNotFoundException;
+use Intervention\Image\Exceptions\DirectoryNotFoundException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Laravel\Facades\Image;
-use Intervention\Images\Exceptions\InvalidArgumentException;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as TestBenchTestCase;
 use ReflectionClass;
@@ -43,7 +43,7 @@ final class FacadeTest extends TestBenchTestCase
 
     public function testThrowsExceptionWhenReadingNonExistentImage(): void
     {
-        $this->expectException(FileNotFoundException::class);
+        $this->expectException(DirectoryNotFoundException::class);
         $input = 'path/to/non_existent_image.jpg';
         Image::decode($input);
     }

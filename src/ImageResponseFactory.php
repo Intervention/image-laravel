@@ -83,7 +83,7 @@ class ImageResponseFactory
      */
     private function content(): string
     {
-        return (string) $this->image->encodeByMediaType(
+        return (string) $this->image->encodeUsingMediaType(
             $this->format()->mediaType(),
             ...$this->options
         );
