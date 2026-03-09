@@ -49,6 +49,11 @@
             "aliases": {
                 "Image": "Intervention\\Image\\Laravel\\Facades\\Image"
             }
+        },
+        "phpstan": {
+            "includes": [
+                "extension.neon"
+            ]
         }
     }
 }

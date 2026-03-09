@@ -1,0 +1,16 @@
+<?php
+
+namespace Illuminate\Contracts\Routing;
+
+use Illuminate\Http\Response;
+use Intervention\Image\FileExtension;
+use Intervention\Image\Format;
+use Intervention\Image\Image;
+use Intervention\Image\MediaType;
+
+/**
+ * @method Response image(Image $image, null|string|Format|MediaType|FileExtension $format = null, mixed ...$options)
+ */
+interface ResponseFactory
+{
+}
