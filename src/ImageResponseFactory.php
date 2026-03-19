@@ -9,8 +9,8 @@ use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\FileExtension;
+use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Format;
-use Intervention\Image\Image;
 use Intervention\Image\MediaType;
 
 class ImageResponseFactory
@@ -25,13 +25,13 @@ class ImageResponseFactory
     /**
      * Create new ImageResponseFactory instance
      *
-     * @param Image $image
+     * @param ImageInterface $image
      * @param null|string|Format|MediaType|FileExtension $format
      * @param mixed ...$options
      * @return void
      */
     public function __construct(
-        protected Image $image,
+        protected ImageInterface $image,
         protected null|string|Format|MediaType|FileExtension $format = null,
         mixed ...$options
     ) {
@@ -41,7 +41,7 @@ class ImageResponseFactory
     /**
      * Static factory method to create HTTP response directly
      *
-     * @param Image $image
+     * @param ImageInterface $image
      * @param null|string|Format|MediaType|FileExtension $format
      * @param mixed ...$options
      * @throws NotSupportedException
@@ -50,7 +50,7 @@ class ImageResponseFactory
      * @return Response
      */
     public static function make(
-        Image $image,
+        ImageInterface $image,
         null|string|Format|MediaType|FileExtension $format = null,
         mixed ...$options,
     ): Response {

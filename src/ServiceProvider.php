@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Response as ResponseFacade;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Image;
+use Intervention\Image\Interfaces\ImageInterface;
 use Illuminate\Http\Response;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
@@ -32,7 +33,7 @@ class ServiceProvider extends BaseServiceProvider
             // register response macro "image"
             if ($this->shouldCreateResponseMacro()) {
                 ResponseFacade::macro(Facades\Image::BINDING, function (
-                    Image $image,
+                    ImageInterface $image,
                     null|string|Format|MediaType|FileExtension $format = null,
                     mixed ...$options,
                 ): Response {
