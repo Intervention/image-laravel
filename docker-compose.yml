@@ -2,6 +2,6 @@ services:
   tests:
     build: ./
     working_dir: /project
-    command: bash -c "composer install && ./vendor/bin/phpunit"
+    entrypoint: ["/usr/local/bin/entrypoint.sh", "./vendor/bin/phpunit"]
     volumes:
       - ./:/project
