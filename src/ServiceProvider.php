@@ -8,7 +8,6 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Response as ResponseFacade;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Intervention\Image\ImageManager;
-use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ImageInterface;
 use Illuminate\Http\Response;
 use Intervention\Image\FileExtension;
