@@ -56,11 +56,11 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->app->singleton(Facades\Image::BINDING, function () {
             return new ImageManager(
-                driver: config('image.driver'),
-                autoOrientation: config('image.options.autoOrientation', true),
-                decodeAnimation: config('image.options.decodeAnimation', true),
-                backgroundColor: config('image.options.backgroundColor', 'ffffff'),
-                strip: config('image.options.strip', false)
+                config('image.driver'),
+                config('image.options.autoOrientation', true),
+                config('image.options.decodeAnimation', true),
+                config('image.options.backgroundColor', 'ffffff'),
+                config('image.options.strip', false)
             );
         });
     }
