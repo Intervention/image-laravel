@@ -6,6 +6,7 @@ namespace Intervention\Image\Laravel\Tests;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Facade;
 use Intervention\Image\Exceptions\DirectoryNotFoundException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -20,8 +21,8 @@ final class FacadeTest extends TestBenchTestCase
 
     public function testImageFacadeIsASubclassOfFacade(): void
     {
-        $facade = new ReflectionClass('Illuminate\Support\Facades\Facade');
-        $reflection = new ReflectionClass('Intervention\Image\Laravel\Facades\Image');
+        $facade = new ReflectionClass(Facade::class);
+        $reflection = new ReflectionClass(ImageFacade::class);
         $this->assertTrue($reflection->isSubclassOf($facade));
     }
 
@@ -44,8 +45,7 @@ final class FacadeTest extends TestBenchTestCase
     public function testThrowsExceptionWhenReadingNonExistentImage(): void
     {
         $this->expectException(DirectoryNotFoundException::class);
-        $input = 'path/to/non_existent_image.jpg';
-        ImageFacade::decode($input);
+        ImageFacade::decode('path/to/non_existent_image.jpg');
     }
 
     public function testCreateAnImage(): void
