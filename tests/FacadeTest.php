@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Exceptions\DirectoryNotFoundException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image as ImageFacade;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as TestBenchTestCase;
 use ReflectionClass;
@@ -27,7 +27,7 @@ final class FacadeTest extends TestBenchTestCase
 
     public function testFacadeAccessorReturnsImage(): void
     {
-        $reflection = new ReflectionClass('Intervention\Image\Laravel\Facades\Image');
+        $reflection = new ReflectionClass(ImageFacade::class);
         $method = $reflection->getMethod('getFacadeAccessor');
         $method->setAccessible(true);
         $this->assertSame('image', $method->invoke(null));
@@ -37,7 +37,7 @@ final class FacadeTest extends TestBenchTestCase
     {
         Storage::fake('images');
         $input = UploadedFile::fake()->image('image.jpg');
-        $result = Image::decode($input);
+        $result = ImageFacade::decode($input);
         $this->assertInstanceOf(ImageInterface::class, $result);
     }
 
@@ -45,28 +45,28 @@ final class FacadeTest extends TestBenchTestCase
     {
         $this->expectException(DirectoryNotFoundException::class);
         $input = 'path/to/non_existent_image.jpg';
-        Image::decode($input);
+        ImageFacade::decode($input);
     }
 
     public function testCreateAnImage(): void
     {
-        $width = 200;
-        $height = 200;
-        $result = Image::createImage($width, $height);
-        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertInstanceOf(
+            ImageInterface::class,
+            ImageFacade::createImage(20, 10),
+        );
     }
 
     public function testThrowsExceptionWhenCreatingImageWithInvalidDimensions(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $width = -200;
-        $height = 200;
-        Image::createImage($width, $height);
+        ImageFacade::createImage(-20, 10);
     }
 
     public function testAnimateAnImage(): void
     {
-        $result = Image::createImage(30, 20, fn () => null);
-        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertInstanceOf(
+            ImageInterface::class,
+            ImageFacade::createImage(30, 20, fn () => null),
+        );
     }
 }
