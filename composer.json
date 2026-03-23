@@ -21,9 +21,9 @@
     ],
     "require": {
         "php": "^8.3",
-        "illuminate/support": "^8|^9|^10|^11|^12",
-        "illuminate/http": "^8|^9|^10|^11|^12",
-        "illuminate/routing": "^8|^9|^10|^11|^12",
+        "illuminate/support": "^8|^9|^10|^11|^12|^13",
+        "illuminate/http": "^8|^9|^10|^11|^12|^13",
+        "illuminate/routing": "^8|^9|^10|^11|^12|^13",
         "intervention/image": "dev-next"
     },
     "require-dev": {
