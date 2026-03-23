@@ -11,6 +11,7 @@ use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\ImageManagerInterface;
 use Intervention\Image\Laravel\ImageResponseFactory;
 use Intervention\Image\MediaType;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +22,12 @@ class ImageResponseFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->image = ImageManager::usingDriver(Driver::class)->createImage(3, 2)->fill('f50');
+        $this->image = $this->imageManager()->createImage(3, 2)->fill('f50');
+    }
+
+    private function imageManager(): ImageManagerInterface
+    {
+        return ImageManager::usingDriver(Driver::class);
     }
 
     public function testDefaultFormat(): void
@@ -32,7 +38,7 @@ class ImageResponseFactoryTest extends TestCase
         $this->assertMimeType('image/jpeg', $response->content());
 
         $response = ImageResponseFactory::make(
-            ImageManager::usingDriver(Driver::class)->decode($this->image->encodeUsingFormat(Format::GIF))
+            $this->imageManager()->decode($this->image->encodeUsingFormat(Format::GIF))
         );
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/gif', $response->headers->get('content-type'));
@@ -50,7 +56,7 @@ class ImageResponseFactoryTest extends TestCase
         $this->assertMimeType('image/gif', $response->content());
 
         $response = ImageResponseFactory::make(
-            ImageManager::usingDriver(Driver::class)->decode($this->image->encodeUsingFormat(Format::GIF)),
+            $this->imageManager()->decode($this->image->encodeUsingFormat(Format::GIF)),
             Format::JPEG,
         );
         $this->assertEquals(200, $response->getStatusCode());
@@ -69,7 +75,7 @@ class ImageResponseFactoryTest extends TestCase
         $this->assertMimeType('image/gif', $response->content());
 
         $response = ImageResponseFactory::make(
-            ImageManager::usingDriver(Driver::class)->decode($this->image->encodeUsingFormat(Format::GIF)),
+            $this->imageManager()->decode($this->image->encodeUsingFormat(Format::GIF)),
             'jpg',
         );
         $this->assertEquals(200, $response->getStatusCode());
@@ -77,7 +83,7 @@ class ImageResponseFactoryTest extends TestCase
         $this->assertMimeType('image/jpeg', $response->content());
 
         $response = ImageResponseFactory::make(
-            ImageManager::usingDriver(Driver::class)->decode($this->image->encodeUsingFormat(Format::GIF)),
+            $this->imageManager()->decode($this->image->encodeUsingFormat(Format::GIF)),
             'image/jpeg',
         );
         $this->assertEquals(200, $response->getStatusCode());
@@ -96,7 +102,7 @@ class ImageResponseFactoryTest extends TestCase
         $this->assertMimeType('image/gif', $response->content());
 
         $response = ImageResponseFactory::make(
-            ImageManager::usingDriver(Driver::class)->decode($this->image->encodeUsingFormat(Format::GIF)),
+            $this->imageManager()->decode($this->image->encodeUsingFormat(Format::GIF)),
             MediaType::IMAGE_JPEG,
         );
         $this->assertEquals(200, $response->getStatusCode());
@@ -104,7 +110,7 @@ class ImageResponseFactoryTest extends TestCase
         $this->assertMimeType('image/jpeg', $response->content());
 
         $response = ImageResponseFactory::make(
-            ImageManager::usingDriver(Driver::class)->decode($this->image->encodeUsingFormat(Format::GIF)),
+            $this->imageManager()->decode($this->image->encodeUsingFormat(Format::GIF)),
             MediaType::IMAGE_JPEG,
         );
         $this->assertEquals(200, $response->getStatusCode());
@@ -123,7 +129,7 @@ class ImageResponseFactoryTest extends TestCase
         $this->assertMimeType('image/gif', $response->content());
 
         $response = ImageResponseFactory::make(
-            ImageManager::usingDriver(Driver::class)->decode($this->image->encodeUsingFormat(Format::GIF)),
+            $this->imageManager()->decode($this->image->encodeUsingFormat(Format::GIF)),
             FileExtension::JPG
         );
         $this->assertEquals(200, $response->getStatusCode());
@@ -131,7 +137,7 @@ class ImageResponseFactoryTest extends TestCase
         $this->assertMimeType('image/jpeg', $response->content());
 
         $response = ImageResponseFactory::make(
-            ImageManager::usingDriver(Driver::class)->decode($this->image->encodeUsingFormat(Format::GIF)),
+            $this->imageManager()->decode($this->image->encodeUsingFormat(Format::GIF)),
             FileExtension::JPEG
         );
         $this->assertEquals(200, $response->getStatusCode());
