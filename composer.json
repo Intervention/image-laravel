@@ -24,7 +24,7 @@
         "illuminate/support": "^8|^9|^10|^11|^12|^13",
         "illuminate/http": "^8|^9|^10|^11|^12|^13",
         "illuminate/routing": "^8|^9|^10|^11|^12|^13",
-        "intervention/image": "dev-next"
+        "intervention/image": "^4.0"
     },
     "require-dev": {
         "ext-fileinfo": "*",
@@ -50,6 +50,5 @@
                 "Image": "Intervention\\Image\\Laravel\\Facades\\Image"
             }
         }
-    },
-    "minimum-stability": "beta"
+    }
 }
