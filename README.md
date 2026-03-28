@@ -126,7 +126,7 @@ Route::get('/', function (Request $request) {
 
     Storage::put(
         Str::random() . '.' . $upload->getClientOriginalExtension(),
-        $image->encodeByExtension($upload->getClientOriginalExtension(), quality: 70)
+        $image->encodeUsingFileExtension($upload->getClientOriginalExtension(), quality: 70)
     );
 });
 ```
