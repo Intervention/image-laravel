@@ -6,14 +6,14 @@ namespace Intervention\Image\Laravel\Tests;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Exceptions\DecoderException;
+use Illuminate\Support\Facades\Facade;
+use Intervention\Image\Exceptions\DirectoryNotFoundException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image as ImageFacade;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as TestBenchTestCase;
 use ReflectionClass;
-use TypeError;
-use ValueError;
 
 final class FacadeTest extends TestBenchTestCase
 {
@@ -21,14 +21,14 @@ final class FacadeTest extends TestBenchTestCase
 
     public function testImageFacadeIsASubclassOfFacade(): void
     {
-        $facade = new ReflectionClass('Illuminate\Support\Facades\Facade');
-        $reflection = new ReflectionClass('Intervention\Image\Laravel\Facades\Image');
+        $facade = new ReflectionClass(Facade::class);
+        $reflection = new ReflectionClass(ImageFacade::class);
         $this->assertTrue($reflection->isSubclassOf($facade));
     }
 
     public function testFacadeAccessorReturnsImage(): void
     {
-        $reflection = new ReflectionClass('Intervention\Image\Laravel\Facades\Image');
+        $reflection = new ReflectionClass(ImageFacade::class);
         $method = $reflection->getMethod('getFacadeAccessor');
         $method->setAccessible(true);
         $this->assertSame('image', $method->invoke(null));
@@ -38,43 +38,35 @@ final class FacadeTest extends TestBenchTestCase
     {
         Storage::fake('images');
         $input = UploadedFile::fake()->image('image.jpg');
-        $result = Image::read($input);
+        $result = ImageFacade::decode($input);
         $this->assertInstanceOf(ImageInterface::class, $result);
     }
 
     public function testThrowsExceptionWhenReadingNonExistentImage(): void
     {
-        $this->expectException(DecoderException::class);
-        $input = 'path/to/non_existent_image.jpg';
-        Image::read($input);
+        $this->expectException(DirectoryNotFoundException::class);
+        ImageFacade::decode('path/to/non_existent_image.jpg');
     }
 
     public function testCreateAnImage(): void
     {
-        $width = 200;
-        $height = 200;
-        $result = Image::create($width, $height);
-        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertInstanceOf(
+            ImageInterface::class,
+            ImageFacade::createImage(20, 10),
+        );
     }
 
     public function testThrowsExceptionWhenCreatingImageWithInvalidDimensions(): void
     {
-        $this->expectException(ValueError::class);
-        $width = -200;
-        $height = 200;
-        Image::create($width, $height);
+        $this->expectException(InvalidArgumentException::class);
+        ImageFacade::createImage(-20, 10);
     }
 
     public function testAnimateAnImage(): void
     {
-        $result = Image::animate(fn () => null);
-        $this->assertInstanceOf(ImageInterface::class, $result);
-    }
-
-    public function testThrowsExceptionWhenAnimatingImageWithInvalidCallback(): void
-    {
-        $this->expectException(TypeError::class);
-        $callback = 'not_callable';
-        Image::animate($callback);
+        $this->assertInstanceOf(
+            ImageInterface::class,
+            ImageFacade::createImage(30, 20, fn () => null),
+        );
     }
 }

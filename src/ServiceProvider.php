@@ -16,7 +16,7 @@ use Intervention\Image\MediaType;
 class ServiceProvider extends BaseServiceProvider
 {
     /**
-     * Bootstrap application events
+     * Bootstrap application events.
      *
      * @return void
      */
@@ -44,7 +44,7 @@ class ServiceProvider extends BaseServiceProvider
     }
 
     /**
-     * Register the image service
+     * Register the image service.
      *
      * @return void
      */
@@ -60,7 +60,7 @@ class ServiceProvider extends BaseServiceProvider
                 driver: config('image.driver'),
                 autoOrientation: config('image.options.autoOrientation', true),
                 decodeAnimation: config('image.options.decodeAnimation', true),
-                blendingColor: config('image.options.blendingColor', 'ffffff'),
+                backgroundColor: config('image.options.backgroundColor', 'ffffff'),
                 strip: config('image.options.strip', false)
             );
         });
