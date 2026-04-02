@@ -97,16 +97,16 @@ return [
 ```
 
 You can read more about the different options for
-[driver selection](https://image.intervention.io/v3/basics/image-manager#driver-selection), setting options for 
-[auto orientation](https://image.intervention.io/v3/modifying/effects#image-orientation-according-to-exif-data), 
-[decoding animations](https://image.intervention.io/v3/modifying/animations) and 
-[blending color](https://image.intervention.io/v3/basics/colors#transparency).
+[driver selection](https://image.intervention.io/v4/basics/configuration-drivers#driver-selection), setting options for 
+[auto orientation](https://image.intervention.io/v4/modifying-images/effects#image-orientation-according-to-exif-data), 
+[decoding animations](https://image.intervention.io/v4/modifying-images/animations) and 
+[background color](https://image.intervention.io/v4/basics/colors#transparency).
 
 ### Static Facade Interface
 
 This package also integrates access to Intervention Image's central entry
 point, the `ImageManager::class`, via a static [facade](https://laravel.com/docs/11.x/facades). The call provides access to the
-centrally configured [image manager](https://image.intervention.io/v3/basics/instantiation) via singleton pattern.
+centrally configured [image manager](https://image.intervention.io/v4/basics/instantiation) via singleton pattern.
 
 The following code example shows how to read an image from an upload request
 the image facade in a Laravel route and save it on disk with a random file
