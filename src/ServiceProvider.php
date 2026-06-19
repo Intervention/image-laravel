@@ -11,6 +11,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Illuminate\Http\Response;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
+use Intervention\Image\Interfaces\ImageManagerInterface;
 use Intervention\Image\MediaType;
 
 class ServiceProvider extends BaseServiceProvider
@@ -56,13 +57,26 @@ class ServiceProvider extends BaseServiceProvider
         );
 
         $this->app->singleton(Facades\Image::BINDING, function () {
-            return new ImageManager(
-                driver: config('image.driver'),
-                autoOrientation: config('image.options.autoOrientation', true),
-                decodeAnimation: config('image.options.decodeAnimation', true),
-                backgroundColor: config('image.options.backgroundColor', 'ffffff'),
-                strip: config('image.options.strip', false)
-            );
+            return $this->imageManager();
         });
+
+        $this->app->singleton(ImageManager::class, function () {
+            return $this->imageManager();
+        });
+
+        $this->app->singleton(ImageManagerInterface::class, function () {
+            return $this->imageManager();
+        });
+    }
+
+    private function imageManager(): ImageManagerInterface
+    {
+        return new ImageManager(
+            driver: config('image.driver'),
+            autoOrientation: config('image.options.autoOrientation', true),
+            decodeAnimation: config('image.options.decodeAnimation', true),
+            backgroundColor: config('image.options.backgroundColor', 'ffffff'),
+            strip: config('image.options.strip', false),
+        );
     }
 }
