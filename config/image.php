@@ -42,5 +42,5 @@ return [
         'decodeAnimation' => true,
         'backgroundColor' => 'ffffff',
         'strip' => false,
-    ]
+    ],
 ];

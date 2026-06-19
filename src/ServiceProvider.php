@@ -24,7 +24,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         // define config files for publishing
         $this->publishes([
-            __DIR__ . '/../config/image.php' => config_path(Facades\Image::BINDING . '.php')
+            __DIR__ . '/../config/image.php' => config_path(Facades\Image::BINDING . '.php'),
         ]);
 
         // register response macro "image"
@@ -52,7 +52,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->mergeConfigFrom(
             __DIR__ . '/../config/image.php',
-            Facades\Image::BINDING
+            Facades\Image::BINDING,
         );
 
         $this->app->singleton(Facades\Image::BINDING, function () {

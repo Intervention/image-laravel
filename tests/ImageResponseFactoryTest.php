@@ -38,7 +38,7 @@ class ImageResponseFactoryTest extends TestCase
         $this->assertMimeType('image/jpeg', $response->content());
 
         $response = ImageResponseFactory::make(
-            $this->imageManager()->decode($this->image->encodeUsingFormat(Format::GIF))
+            $this->imageManager()->decode($this->image->encodeUsingFormat(Format::GIF)),
         );
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/gif', $response->headers->get('content-type'));
@@ -122,7 +122,7 @@ class ImageResponseFactoryTest extends TestCase
     {
         $response = ImageResponseFactory::make(
             $this->image,
-            FileExtension::GIF
+            FileExtension::GIF,
         );
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/gif', $response->headers->get('content-type'));
@@ -130,7 +130,7 @@ class ImageResponseFactoryTest extends TestCase
 
         $response = ImageResponseFactory::make(
             $this->imageManager()->decode($this->image->encodeUsingFormat(Format::GIF)),
-            FileExtension::JPG
+            FileExtension::JPG,
         );
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/jpeg', $response->headers->get('content-type'));
@@ -138,7 +138,7 @@ class ImageResponseFactoryTest extends TestCase
 
         $response = ImageResponseFactory::make(
             $this->imageManager()->decode($this->image->encodeUsingFormat(Format::GIF)),
-            FileExtension::JPEG
+            FileExtension::JPEG,
         );
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('image/jpeg', $response->headers->get('content-type'));
@@ -164,7 +164,7 @@ class ImageResponseFactoryTest extends TestCase
         $detected = (new finfo(FILEINFO_MIME))->buffer($contents);
         $this->assertTrue(
             str_starts_with($detected, $mimeType),
-            'The detected type ' . $detected . ' does not correspond to ' . $mimeType . '.'
+            'The detected type ' . $detected . ' does not correspond to ' . $mimeType . '.',
         );
     }
 }

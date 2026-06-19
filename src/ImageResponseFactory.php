@@ -24,16 +24,11 @@ class ImageResponseFactory
 
     /**
      * Create new ImageResponseFactory instance.
-     *
-     * @param ImageInterface $image
-     * @param null|string|Format|MediaType|FileExtension $format
-     * @param mixed ...$options
-     * @return void
      */
     public function __construct(
         protected ImageInterface $image,
         protected null|string|Format|MediaType|FileExtension $format = null,
-        mixed ...$options
+        mixed ...$options,
     ) {
         $this->options = $options;
     }
@@ -41,13 +36,9 @@ class ImageResponseFactory
     /**
      * Static factory method to create HTTP response directly.
      *
-     * @param ImageInterface $image
-     * @param null|string|Format|MediaType|FileExtension $format
-     * @param mixed ...$options
      * @throws NotSupportedException
      * @throws DriverException
      * @throws RuntimeException
-     * @return Response
      */
     public static function make(
         ImageInterface $image,
@@ -63,13 +54,12 @@ class ImageResponseFactory
      * @throws NotSupportedException
      * @throws DriverException
      * @throws RuntimeException
-     * @return Response
      */
     public function response(): Response
     {
         return new Response(
             content: $this->content(),
-            headers: $this->headers()
+            headers: $this->headers(),
         );
     }
 
@@ -79,32 +69,29 @@ class ImageResponseFactory
      * @throws NotSupportedException
      * @throws DriverException
      * @throws RuntimeException
-     * @return string
      */
     private function content(): string
     {
         return (string) $this->image->encodeUsingMediaType(
             $this->format()->mediaType(),
-            ...$this->options
+            ...$this->options,
         );
     }
 
     /**
      * Return HTTP response headers to be attached in the image response.
      *
-     * @return array
+     * @return array<string, string>
      */
     private function headers(): array
     {
         return [
-            'Content-Type' => $this->format()->mediaType()->value
+            'Content-Type' => $this->format()->mediaType()->value,
         ];
     }
 
     /**
      * Determine the target format of the image in the HTTP response.
-     *
-     * @return Format
      */
     private function format(): Format
     {
