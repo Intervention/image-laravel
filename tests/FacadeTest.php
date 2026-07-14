@@ -31,7 +31,7 @@ final class FacadeTest extends TestBenchTestCase
         $reflection = new ReflectionClass(ImageFacade::class);
         $method = $reflection->getMethod('getFacadeAccessor');
         $method->setAccessible(true);
-        $this->assertSame('image', $method->invoke(null));
+        $this->assertSame('intervention.image', $method->invoke(null));
     }
 
     public function testReadAnImage(): void
