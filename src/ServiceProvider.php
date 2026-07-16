@@ -25,16 +25,16 @@ class ServiceProvider extends BaseServiceProvider
     {
         // define config files for publishing
         $this->publishes([
-            __DIR__ . '/../config/image.php' => config_path(Facades\Image::BINDING . '.php'),
+            __DIR__ . '/../config/intervention-image.php' => config_path('intervention-image.php'),
         ]);
 
         // register response macro "image"
         ResponseFacade::resolved(function ($factory): void {
-            if ($factory::hasMacro(Facades\Image::BINDING)) {
+            if ($factory::hasMacro('image')) {
                 return;
             }
 
-            $factory::macro(Facades\Image::BINDING, function (
+            $factory::macro('image', function (
                 ImageInterface $image,
                 null|string|Format|MediaType|FileExtension $format = null,
                 mixed ...$options,
@@ -52,31 +52,51 @@ class ServiceProvider extends BaseServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/image.php',
-            Facades\Image::BINDING,
+            __DIR__ . '/../config/intervention-image.php',
+            'intervention-image',
         );
 
         $this->app->singleton(Facades\Image::BINDING, function () {
-            return $this->imageManager();
+            return new ImageManager(...$this->config());
         });
 
         $this->app->singleton(ImageManager::class, function () {
-            return $this->imageManager();
+            return new ImageManager(...$this->config());
         });
 
         $this->app->singleton(ImageManagerInterface::class, function () {
-            return $this->imageManager();
+            return new ImageManager(...$this->config());
         });
     }
 
-    private function imageManager(): ImageManagerInterface
+    /**
+     * Get image manager config values.
+     *
+     * @return array{
+     *      'driver': string,
+     *      'autoOrientation': bool,
+     *      'decodeAnimation': bool,
+     *      'backgroundColor': mixed,
+     *      'strip': bool}
+     */
+    private function config(): array
     {
-        return new ImageManager(
-            driver: config('image.driver'),
-            autoOrientation: config('image.options.autoOrientation', true),
-            decodeAnimation: config('image.options.decodeAnimation', true),
-            backgroundColor: config('image.options.backgroundColor', 'ffffff'),
-            strip: config('image.options.strip', false),
-        );
+        $filename = $this->hasPublishedLegacyConfig() ? 'image' : 'intervention-image';
+
+        return [
+            'driver' => config($filename . '.driver'),
+            'autoOrientation' => config($filename . '.options.autoOrientation', true),
+            'decodeAnimation' => config($filename . 'image.options.decodeAnimation', true),
+            'backgroundColor' => config($filename . 'image.options.backgroundColor', 'ffffff'),
+            'strip' => config($filename . 'image.options.strip', false),
+        ];
+    }
+
+    /**
+     * Determine if a legacy config file for Intervention Image Laravel is published.
+     */
+    private function hasPublishedLegacyConfig(): bool
+    {
+        return is_array(config('image.options'));
     }
 }
