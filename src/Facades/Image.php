@@ -25,7 +25,7 @@ use Stringable;
 class Image extends Facade
 {
     /**
-     * Legacy constant. Will be removed in future release.
+     * Binding name of the service container.
      */
     public const BINDING = 'intervention.image';
 
