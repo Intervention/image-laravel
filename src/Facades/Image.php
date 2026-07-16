@@ -25,9 +25,9 @@ use Stringable;
 class Image extends Facade
 {
     /**
-     * Binding name of the service container
+     * Legacy constant. Will be removed in future release.
      */
-    public const BINDING = 'image';
+    public const BINDING = 'intervention.image';
 
     protected static function getFacadeAccessor()
     {
