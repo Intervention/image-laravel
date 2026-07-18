@@ -102,6 +102,35 @@ You can read more about the different options for
 [decoding animations](https://image.intervention.io/v4/modifying-images/animations) and 
 [background color](https://image.intervention.io/v4/basics/colors#transparency).
 
+### Dependency Injection
+
+The image manager can be used by resolving either `Intervention\Image\ImageManager` or `Intervention\Image\Interfaces\ImageManagerInterface` at various points in the application via dependency injection, resulting in a manager instance based on the application-wide image configuration.
+
+The following example illustrates this using a controller.
+
+```php
+use Intervention\Image\Interfaces\ImageManagerInterface;
+use Illuminate\Http\Request;
+
+class ImageController extends Controller
+{
+    /**
+     * Create a new controller instance by injecting an image manager.
+     */
+    public function __construct(
+        protected ImageManagerInterface $imageManager,
+    ) {}
+
+    /**
+     * Handle image upload.
+     */
+    public function handleImageUpload(Request $request): RedirectResponse
+    {
+        $image = $this->imageManager->decodeSplFileInfo($request->file('image'));
+    }
+}
+```
+
 ### Static Facade Interface
 
 This package also integrates access to Intervention Image's central entry
