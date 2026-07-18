@@ -42,7 +42,7 @@ The configuration file can be copied to the application with the following comma
 php artisan vendor:publish --provider="Intervention\Image\Laravel\ServiceProvider"
 ```
 
-This command will publish the configuration file `config/image.php`. Here you
+This command will publish the configuration file `config/intervention-image.php`. Here you
 can set the desired driver and its configuration options for Intervention
 Image. By default the library is configured to use GD library for image
 processing.
@@ -134,7 +134,7 @@ class ImageController extends Controller
 ### Static Facade Interface
 
 This package also integrates access to Intervention Image's central entry
-point, the `ImageManager::class`, via a static [facade](https://laravel.com/docs/11.x/facades). The call provides access to the
+point, the `ImageManager::class`, via a static [facade](https://laravel.com/docs/facades). The call provides access to the
 centrally configured [image manager](https://image.intervention.io/v4/basics/instantiation) via singleton pattern.
 
 The following code example shows how to read an image from an upload request
@@ -150,8 +150,8 @@ use Intervention\Image\Laravel\Facades\Image;
 
 Route::get('/', function (Request $request) {
     $upload = $request->file('image');
-    $image = Image::decode($upload)
-        ->resize(300, 200);
+    $image = Image::decode($upload);
+    $image = $image->resize(300, 200);
 
     Storage::put(
         Str::random() . '.' . $upload->getClientOriginalExtension(),
@@ -177,8 +177,8 @@ use Intervention\Image\Format;
 use Intervention\Image\Laravel\Facades\Image;
 
 Route::get('/', function () {
-    $image = Image::decode(Storage::get('example.jpg'))
-        ->scale(300, 200);
+    $image = Image::decode(Storage::get('example.jpg'));
+    $image = $image->scale(300, 200);
 
     return response()->image($image, Format::WEBP, quality: 65);
 });
