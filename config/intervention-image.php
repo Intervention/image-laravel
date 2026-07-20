@@ -25,16 +25,16 @@ return [
     |
     | These options control the behavior of Intervention Image.
     |
-    | - "autoOrientation" controls whether an imported image should be
+    | - "autoOrientation" controls whether imported images should be
     |    automatically rotated according to any existing Exif data.
     |
-    | - "decodeAnimation" decides whether a possibly animated image is
-    |    decoded as such or whether the animation is discarded.
+    | - "decodeAnimation" determines whether animated images are decoded
+    |    with their animation intact or if the animation is discarded.
     |
-    | - "backgroundColor" Defines the default background & blending color.
+    | - "backgroundColor" defines the default background and blending color.
     |
-    | - "strip" controls if meta data like exif tags should be removed when
-    |    encoding images.
+    | - "strip" controls whether metadata like Exif tags should be removed
+    |    automatically when encoding images.
     */
 
     'options' => [
