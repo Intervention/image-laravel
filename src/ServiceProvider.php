@@ -86,9 +86,9 @@ class ServiceProvider extends BaseServiceProvider
         return [
             'driver' => config($filename . '.driver'),
             'autoOrientation' => config($filename . '.options.autoOrientation', true),
-            'decodeAnimation' => config($filename . 'image.options.decodeAnimation', true),
-            'backgroundColor' => config($filename . 'image.options.backgroundColor', 'ffffff'),
-            'strip' => config($filename . 'image.options.strip', false),
+            'decodeAnimation' => config($filename . '.options.decodeAnimation', true),
+            'backgroundColor' => config($filename . '.options.backgroundColor', 'ffffff'),
+            'strip' => config($filename . '.options.strip', false),
         ];
     }
 

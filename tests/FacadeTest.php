@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Facade;
 use Intervention\Image\Exceptions\DirectoryNotFoundException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\ImageManager;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Laravel\Facades\Image as ImageFacade;
 use Orchestra\Testbench\Concerns\WithWorkbench;
@@ -32,6 +33,21 @@ final class FacadeTest extends TestBenchTestCase
         $method = $reflection->getMethod('getFacadeAccessor');
         $method->setAccessible(true);
         $this->assertSame('intervention.image', $method->invoke(null));
+    }
+
+    public function testImageManagerUsesConfiguredOptions(): void
+    {
+        config([
+            'intervention-image.options.decodeAnimation' => false,
+            'intervention-image.options.backgroundColor' => '000000',
+            'intervention-image.options.strip' => true,
+        ]);
+
+        $manager = $this->app->make(ImageFacade::BINDING);
+        $this->assertInstanceOf(ImageManager::class, $manager);
+        $this->assertFalse($manager->driver->config()->decodeAnimation);
+        $this->assertSame('000000', $manager->driver->config()->backgroundColor);
+        $this->assertTrue($manager->driver->config()->strip);
     }
 
     public function testReadAnImage(): void
