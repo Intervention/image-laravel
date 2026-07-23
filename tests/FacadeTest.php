@@ -7,6 +7,7 @@ namespace Intervention\Image\Laravel\Tests;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Facade;
+use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Exceptions\DirectoryNotFoundException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\ImageManager;
@@ -38,6 +39,7 @@ final class FacadeTest extends TestBenchTestCase
     public function testImageManagerUsesConfiguredOptions(): void
     {
         config([
+            'intervention-image.driver' => Driver::class,
             'intervention-image.options.decodeAnimation' => false,
             'intervention-image.options.backgroundColor' => '000000',
             'intervention-image.options.strip' => true,
@@ -48,6 +50,35 @@ final class FacadeTest extends TestBenchTestCase
         $this->assertFalse($manager->driver->config()->decodeAnimation);
         $this->assertSame('000000', $manager->driver->config()->backgroundColor);
         $this->assertTrue($manager->driver->config()->strip);
+    }
+
+    public function testImageManagerUsesLegacyConfiguredOptions(): void
+    {
+        config([
+            'image.driver' => Driver::class,
+            'image.options.decodeAnimation' => false,
+            'image.options.backgroundColor' => '000000',
+            'image.options.strip' => true,
+        ]);
+
+        $manager = $this->app->make(ImageFacade::BINDING);
+        $this->assertInstanceOf(ImageManager::class, $manager);
+        $this->assertFalse($manager->driver->config()->decodeAnimation);
+        $this->assertSame('000000', $manager->driver->config()->backgroundColor);
+        $this->assertTrue($manager->driver->config()->strip);
+    }
+
+    public function testImageManagerDoesNotUseLegacyConfiguredOptions(): void
+    {
+        config([
+            'image.driver' => 'value',
+        ]);
+
+        $manager = $this->app->make(ImageFacade::BINDING);
+        $this->assertInstanceOf(ImageManager::class, $manager);
+        $this->assertTrue($manager->driver->config()->decodeAnimation); // default
+        $this->assertSame('ffffff', $manager->driver->config()->backgroundColor); // default
+        $this->assertFalse($manager->driver->config()->strip); // default
     }
 
     public function testReadAnImage(): void
